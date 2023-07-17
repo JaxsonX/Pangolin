@@ -2,9 +2,12 @@ get_filename_component(COMPONENT ${CMAKE_CURRENT_LIST_DIR} NAME)
 
 option(BUILD_PANGOLIN_PYTHON "Build support for Pangolin Interactive Console" ON)
 
-if(BUILD_PANGOLIN_PYTHON)
-  find_package(Python COMPONENTS Interpreter Development QUIET)
-endif()
+set(PYTHON_EXECUTABLE /usr/bin/python3)
+
+# if(BUILD_PANGOLIN_PYTHON)
+    message(STATUS "Building Pangolin Python bindings")
+  find_package(Python COMPONENTS Interpreter Development)
+# endif()
 
 if(BUILD_PANGOLIN_PYTHON AND Python_FOUND)
     # If we've inited the submodule, use that
@@ -15,7 +18,13 @@ if(BUILD_PANGOLIN_PYTHON AND Python_FOUND)
     endif()
 endif()
 
+# print BUILD_PANGOLIN_PYTHON, Python_FOUND, pybind11_FOUND
+message(STATUS "BUILD_PANGOLIN_PYTHON: ${BUILD_PANGOLIN_PYTHON}")
+message(STATUS "Python_FOUND: ${Python_FOUND} ${Python2_FOUND} ${Python3_FOUND}")
+message(STATUS "pybind11_FOUND: ${pybind11_FOUND}")
+
 if(BUILD_PANGOLIN_PYTHON AND Python_FOUND AND pybind11_FOUND)
+message(STATUS "Building Pangolin Python bindings")
     set(SRC_BINDINGS
         ${CMAKE_CURRENT_LIST_DIR}/src/pypangolin/attach.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/pypangolin/colour.cpp
@@ -84,6 +93,7 @@ if(BUILD_PANGOLIN_PYTHON AND Python_FOUND AND pybind11_FOUND)
         PRINT_HELP
     )
 else()
+message(STATUS "Not building Pangolin Python bindings")
     #TODO: with the following line uncommented and BUILD_PANGOLIN_PYTHON=OFF, `make install` fails b/c it tries to install a missing libpango_python.a
     #set_target_properties(${COMPONENT} PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
     target_sources( ${COMPONENT} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../pango_core/src/dummy.cpp )

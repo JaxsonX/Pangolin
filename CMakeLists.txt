@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
+message("CMAKE_VERSION: ${CMAKE_VERSION}")
+
 project("Pangolin")
 set(PANGOLIN_VERSION_MAJOR 0)
 set(PANGOLIN_VERSION_MINOR 8)
@@ -118,6 +120,7 @@ endforeach()
 ## Build Tree Export
 
 # Export Targets
+message(STATUS "Exporting targets: ${component_list}")
 export(TARGETS ${component_list} FILE PangolinTargets.cmake)
 export(PACKAGE Pangolin)
 

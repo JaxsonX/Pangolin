@@ -1,0 +1,7 @@
+FROM viewer:v0.1.0
+
+WORKDIR /
+
+# For Viz
+#Xvfb :5 -screen 0 1920x1080x30 &
+#export DISPLAY=:5
